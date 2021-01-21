@@ -1,0 +1,8 @@
+- hosts: localhost
+  tasks:
+# NodeJS Playbook
+- name: NodeJS Tasks
+  include: node/install.yml
+# MongoDB Playbook
+- name: MongoDB Tasks
+  include: mongo/install.yml

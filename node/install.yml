@@ -1,0 +1,32 @@
+- hosts: localhost
+  tasks:
+# Install Repository - Debian
+  - name: Install Node Repository - Debian
+    become: yes
+    become_user: root
+    become_method: su
+    script: scripts/debian_install.sh
+    when: ansible_facts['os_family'] == "Debian" or ansible_facts['os_family'] == "LMDE 4 (debbie)"
+# Install Repository - RedHat
+  - name: Install Node Repository - Redhat
+    become: yes
+    become_user: root
+    become_method: su
+    script: scripts/redhat_install.sh
+    when: ansible_facts['os_family'] == "RedHat"
+# Install Package - Debian
+  - name: Install Node Package - Debian
+    become: yes
+    become_user: root
+    become_method: su
+    apt:
+      name: nodejs
+    when: ansible_facts['os_family'] == "Debian" or ansible_facts['os_family'] == "LMDE 4 (debbie)"
+# Install Package - RedHat
+  - name: Install Node Package - RedHat
+    become: yes
+    become_user: root
+    become_method: su
+    yum:
+      name: nodejs
+    when: ansible_facts['os_family'] == "RedHat"

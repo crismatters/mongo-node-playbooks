@@ -1,0 +1,41 @@
+- hosts: localhost
+  tasks:
+# Install Repository - Debian
+  - name: Install MongoDB Repository - Debian
+    become: yes
+    become_user: root
+    become_method: su
+    script: scripts/debian_install.sh
+    when: ansible_facts['os_family'] == "Debian" or ansible_facts['os_family'] == "LMDE 4 (debbie)"
+# Install Repository - RedHat
+  - name: Install MongoDB Repository - Redhat
+    become: yes
+    become_user: root
+    become_method: su
+    script: scripts/redhat_install.sh
+    when: ansible_facts['os_family'] == "RedHat"
+# Install Package - Debian
+  - name: Install MongoDB Package - Debian
+    become: yes
+    become_user: root
+    become_method: su
+    apt:
+      name: mongodb-org
+    when: ansible_facts['os_family'] == "Debian" or ansible_facts['os_family'] == "LMDE 4 (debbie)"
+# Install Package - RedHat
+  - name: Install MongoDB Package - RedHat
+    become: yes
+    become_user: root
+    become_method: su
+    yum:
+      name: mongodb-org
+    when: ansible_facts['os_family'] == "RedHat"
+# Start and enable service
+  - name: Start and enable Mongo Daemon
+    become: yes
+    become_user: root
+    become_method: su
+    service:
+      name: mongod
+      state: started
+      enabled: yes
